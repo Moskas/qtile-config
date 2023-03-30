@@ -1,0 +1,9 @@
+#+title: Readme
+#+author: Moskas
+#+options: title:nil
+#+language: english
+
+* qtile config
+This repo contains my personal config for qtile with small scripts and widgets to make theming easier and more dynamic.
+** Xressources colors
+I have written a simple python Xresources parser that creates a pseudo two dimensional list of colors and hex values.
