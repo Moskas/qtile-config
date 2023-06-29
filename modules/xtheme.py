@@ -18,7 +18,7 @@ colors = {
     "bg": get_colors(xres, 0),
     "fg": get_colors(xres, 1),
     "black": get_colors(xres, 2),
-    "gray": get_colors(xres, 3),
+    "gray1": get_colors(xres, 3),
     "dark-red": get_colors(xres, 4),
     "red": get_colors(xres, 5),
     "dark-green": get_colors(xres, 6),

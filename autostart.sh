@@ -1,7 +1,8 @@
 #!/bin/sh
 
 xrandr --output DP-0 --mode 1920x1080 --rate 143.98
-feh --bg-fill --randomize /home/moskas/.config/wallpapers/gruvbox/** &
+random-gruv-wall
+#feh --bg-fill --randomize /home/moskas/.config/wallpapers/gruvbox/** &
 openrgb -p red & 
 betterlockscreen -u ~/.config/wallpapers/gruvbox/**/* 
 setxkbmap pl &
@@ -14,6 +15,7 @@ nicotine &
 
 # mpd notification
 mpd-notify-rs &
+#mpDris2 &
 
 # Rival 3 mouse sensitivity
 #rivalcfg -s 800 

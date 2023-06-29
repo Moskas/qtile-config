@@ -6,26 +6,24 @@ from libqtile.widget import (
     TextBox,
     Spacer,
     Mpd2,
+    Pomodoro,
+    Wttr,
+    # Image,
 )
 
-# from widgets.cryptoticker import CryptoTicker
-
-# from qtile_extras.widget import (
-#    Visualiser,
-# )
-
-# from qtile_extras.widget.decorations import BorderDecoration
-# from colorschemes.gruvbox_dark import colors
 from modules.xtheme import colors  # dynamic colors from xres
 
 # Scuffed bar
 bar = Bar(
     [
+        # Image(
+        #     filename="~/Downloads/kitty.png",
+        # ),
         TextBox(
             "",
             width=40,
-            foreground=colors["fg"],
-            background=colors["dark-blue"],
+            foreground=colors["bg"],
+            background=colors["blue"],
             font="JetBrains Mono Nerd Font",
             fontsize=20,
         ),
@@ -71,27 +69,59 @@ bar = Bar(
             idle_format="{play_status} {idle_message}",
             idle_message=" Queue Empty",
         ),
-        Spacer(),
+        # Mpris2(),
         # Visualiser(
-        # framerate=144,
-        # bar_colour=colors["red"],
-        # background=colors["bg0"],
-        # ), # Lag?
-        TextBox(
-            "",
+        #    width=200,
+        #    framerate=144,
+        #    bar_colour=colors["bg"],
+        #    background=colors["dark-blue"],
+        #    bars=12,
+        # ),  # Lag? instability even
+        Spacer(),
+        Pomodoro(
+            # Widget style
             background=colors["dark-gray"],
-            font="JetBrains Mono Nerd Font Bold",
+            foreground=colors["fg"],
+            # Icons
+            prefix_active="󱫠 ",
+            prefix_inactive="󱎫",
+            prefix_break="󱫞 ",
+            prefix_long_break="󱫪 ",
+            # Text/Icon colors
+            color_active=colors["green"],
+            color_break=colors["yellow"],
+            color_inactive=colors["fg"],
+            # Font
+            font="JetBrains Mono Nerd Font",
             fontsize=16,
             padding=10,
         ),
+        # TextBox(
+        #    # Just a separator
+        #    "",
+        #    background=colors["dark-gray"],
+        #    font="JetBrains Mono Nerd Font Bold",
+        #    fontsize=16,
+        #    padding=10,
+        # ),
         Systray(
+            # System tray for apps like discord, obs and such
             background=colors["dark-gray"],
             padding=10,
             icon_size=16,
         ),
-        TextBox(" ", background=colors["dark-gray"], padding=10),
+        # Separator to fix alignment of nerdfont icons
+        TextBox(" ", background=colors["dark-gray"], padding=2),
+        Wttr(
+            location={"Wrocław": "Home"},
+            format="%t %c",
+            update_interval=30,
+            background=colors["blue"],
+            foreground=colors["bg"],
+            font="JetBrains Mono Nerd Font Bold",
+        ),
         TextBox(
-            "",
+            "",
             background=colors["dark-yellow"],
             foreground=colors["bg"],
             padding=10,
@@ -108,11 +138,11 @@ bar = Bar(
         Clock(
             background=colors["yellow"],
             foreground=colors["bg"],
-            format="%a %H:%M:%S",
+            format="%A | %H:%M:%S",
             font="JetBrains Mono Nerd Font Bold",
         ),
     ],
-    margin=[0, 0, 0, 0],
+    margin=[5, 5, 5, 5],
     background=colors["bg"],
     foreground=colors["fg"],
     font="JetBrains Mono Nerd Font",
