@@ -2,11 +2,9 @@ from libqtile.bar import Bar
 
 from colorschemes.gruvbox_dark import colors
 
-from libqtile.widget.textbox import TextBox
 from libqtile.widget.spacer import Spacer
 from libqtile.widget.open_weather import OpenWeather
 from libqtile.widget.check_updates import CheckUpdates
-from libqtile.widget.wallpaper import Wallpaper
 
 
 bottom_bar = Bar(
@@ -41,10 +39,10 @@ bottom_bar = Bar(
         # label=" ",
         # ),
     ],
-    margin=[0, 0, 0, 0],
-    # border_width=[2,0,0,0],
-    border_color=[colors["blue"], colors["blue"], colors["blue"], colors["blue"]],
+    # margin=[5, 5, 5, 5],
     background=colors["bg"],
+    foreground=colors["fg"],
+    font="JetBrains Mono Nerd Font",
     opacity=1,
-    size=24,
+    size=25,
 )

@@ -22,3 +22,4 @@ mpd-notify-rs &
 
 # SSHFS for local NAS
 #sshfs -o ~/.ssh/optiplex optiplex.home:~ ~/nas
+systemctl restart --user emacs.service # For some reason it has issues on launch

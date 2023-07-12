@@ -94,6 +94,7 @@ keys = [
     # screenshot shortcuts
     Key(["control"], "Print", lazy.spawn("flameshot gui -c")),
     Key([], "Print", lazy.spawn("flameshot screen -c")),
+    # Key(["control"], "c", lazy.spawn("xclip -selelction clipboard")),
     # media keys
     Key(
         [],
