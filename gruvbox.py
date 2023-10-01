@@ -13,12 +13,15 @@ colors = {
     "magenta": "#d3869b",
     "dark-cyan": "#689d6a",
     "cyan": "#8ec07c",
-    "gray": "#928374",
-    "bg0": "#32302f",  # bg0_s
-    "bg1": "#3c3836",
-    "bg2": "#504945",
-    "bg3": "#665c54",
-    "bg4": "#766f64",
-    "active": "#fbf1c7",  # aka fg0
-    "inactive": "#1d2021",  # aka bg0_h
+    "dark-gray": "#3d3d3d",
+    "gray": "#666666",
+    "fg1": "#3c3836",
+    "fg2": "#504945",
+    "fg3": "#665c54",
+    "fg4": "#766f64",
+    "bg0": "#32302f",
+    "active": "#766f64",
+    "inactive": "#3d3d3d",
+    # "fg0": "#1d2021",
+    # "fg9": "#ebdbb2",
 }
