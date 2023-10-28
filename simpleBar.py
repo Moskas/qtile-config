@@ -8,9 +8,13 @@ from libqtile.widget import (
     Spacer,
     Mpd2,
     Wttr,
+    ImapWidget,
+    Pomodoro,
 )
 
 from colorschemes.gruvbox_dark import colors
+
+# from modules.exchange import ExchangePriceWidget
 import subprocess
 
 
@@ -28,19 +32,35 @@ def notify_current_song():
     subprocess.Popen(["notify-send", "Now playing:", message])
 
 
-# Scuffed bar
+def notify_date():
+    date = subprocess.check_output(["date", "+%D"]).decode().strip()
+    subprocess.Popen(["notify-send", f"Today is: {date}"])
+
+
+def exchange(currency):
+    value = subprocess.run(
+        ["rates", "1", currency, "to", "pln", "--short"], capture_output=True, text=True
+    )
+    return value.stdout.strip()
+
+
+separator = "//"
 bar = Bar(
     [
-        # TextBox(
-        #    "",
-        #    width=40,
-        #    foreground=colors["inactive"],
-        #    background=colors["blue"],
-        #    font="JetBrains Mono Nerd Font",
-        #    fontsize=20,
-        # ),
+        TextBox(
+            "",
+            width=30,
+            foreground=colors["fg"],
+            font="JetBrains Mono Nerd Font",
+            fontsize=18,
+            mouse_callbacks={
+                "Button1": lazy.spawn("rofi -show drun"),
+                "Button3": lazy.spawn("kitty"),
+            },
+        ),
+        TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
         GroupBox(
-            fontsize=17,
+            fontsize=16,
             disable_drag=True,
             hide_unused=False,
             active=colors["gray"],
@@ -53,105 +73,54 @@ bar = Bar(
             font="JetBrains Mono Nerd Font",
             padding=10,
         ),
+        # ExchangePriceWidget(),
         Spacer(),
-        # TextBox(
-        #    "",
-        #    font="JetBrains Mono Nerd Font",
-        #    background=colors["dark-blue"],
-        #    foreground=colors["bg"],
-        #    width=27,
-        #    mouse_callbacks={"Button1": lambda: notify_current_song()},
-        # ),
         Mpd2(
-            width=300,
-            font="JetBrains Mono Nerd Font Bold",
-            # fontsize=13,
-            # padding=[0, 0, 10, 10],
+            width=500,
+            font="JetBrains Mono Nerd Font",
             foreground=colors["fg"],
-            # color_progress=[colors["fg"]],
             status_format="{artist} - {title} [{album}]",
             scroll=True,
             idle_format="{play_status} {idle_message}",
-            idle_message=" Queue Empty",
+            idle_message="Queue Empty",
+            mouse_callbacks={
+                "Button2": lazy.group["scratchpad"].dropdown_toggle("music"),
+            },
         ),
-        # Mpris2(),
-        # Visualiser(
-        #    width=200,
-        #    framerate=144,
-        #    bar_colour=colors["bg"],
-        #    background=colors["dark-blue"],
-        #    bars=12,
-        # ),  # Lag? instability even
-        # Pomodoro(
-        #    # Widget style
-        #    background=colors["bg"],
-        #    foreground=colors["fg"],
-        #    # Icons
-        #    prefix_active="󱫠 ",
-        #    prefix_inactive="󱎫",
-        #    prefix_break="󱫞 ",
-        #    prefix_long_break="󱫪 ",
-        #    # Text/Icon colors
-        #    color_active=colors["green"],
-        #    color_break=colors["yellow"],
-        #    color_inactive=colors["fg"],
-        #    # Font
-        #    font="JetBrains Mono Nerd Font",
-        #    fontsize=16,
-        #    padding=10,
-        # ),
-        # TextBox(
-        #    # Just a separator
-        #    "",
-        #    background=colors["gray"],
-        #    font="JetBrains Mono Nerd Font Bold",
-        #    fontsize=16,
-        #    padding=10,
-        # ),
-        # Separator to fix alignment of nerdfont icons
-        TextBox("|", font="JetBrainsMono Nerd Font", fontsize=16),
+        Spacer(),
+        # TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
+        TextBox(
+            "XMR %szł" % exchange("xmr"),
+            font="JetBrains Mono Nerd Font",
+        ),
+        TextBox(
+            "BTC %szł" % exchange("btc"),
+            font="JetBrains Mono Nerd Font",
+        ),
+        TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
         Wttr(
             location={"Wrocław": "Home"},
-            format="%C %t",
+            format="%C %f",
             update_interval=30,
             foreground=colors["fg"],
-            font="JetBrains Mono Nerd Font Bold",
+            font="JetBrains Mono Nerd Font",
         ),
-        #  TextBox(
-        #    "",
-        #    background=colors["dark-yellow"],
-        #    foreground=colors["bg"],
-        #    padding=10,
-        #    font="JetBrains Mono Nerd Font Bold",
-        #    fontsize=16,
-        #    mouse_callbacks={
-        #            'Button1': lazy.spawn("kitty -T cal --hold -e cal "),
-        #            'Button3': lazy.spawn("notify-send Close Calendar"),
-        #    },
-        #  ),
-        #  TextBox(
-        #    " ",
-        #    background=colors["dark-yellow"],
-        #    foreground=colors["bg"],
-        #    padding=0,
-        #    fontsize=16,
-        #  ),
         TextBox(
-            "|",
+            separator,
             font="JetBrainsMono Nerd Font",
             fontsize=16,
         ),
         Clock(
             foreground=colors["fg"],
-            format="%A %H:%M:%S",
-            font="JetBrains Mono Nerd Font Bold",
+            format="%H:%M:%S",
+            font="JetBrains Mono Nerd Font",
             mouse_callbacks={
                 "Button1": lazy.group["scratchpad"].dropdown_toggle("cal"),
-                "Button3": lazy.spawn("notify-send Close Calendar"),
+                "Button3": lambda: notify_date(),
             },
         ),
         TextBox(
-            "|",
+            separator,
             font="JetBrainsMono Nerd Font",
             fontsize=16,
         ),

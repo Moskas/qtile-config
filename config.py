@@ -25,8 +25,6 @@ from libqtile.lazy import lazy
 # from bar_top import bar
 from simpleBar import bar
 
-# from bottom_bar import bottom_bar
-
 from colorschemes.gruvbox_dark import colors
 
 # set mod key "windows/meta" key
@@ -196,7 +194,7 @@ groups = [
         layout="columns",
     ),
     Group("4", label="󰠮", matches=[Match(wm_class="Zathura")], layout="monadthreecol"),
-    Group("5", label="", matches=[Match(wm_class="Steam")], layout="columns"),
+    Group("5", label="", matches=[Match(wm_class="steam")], layout="columns"),
     Group(
         "6",
         label="󰄀",
@@ -339,6 +337,14 @@ groups.append(
                 y=0.005,
                 opacity=0.9,
             ),
+            DropDown(
+                "rss",
+                "kitty -e newsboat",
+                width=0.5,
+                height=0.985,
+                y=0.005,
+                x=0.26,
+            ),
         ],
     )
 )
@@ -350,7 +356,7 @@ keys.extend(
         Key(["mod1"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
         Key(["mod1", "shift"], "3", lazy.group["scratchpad"].dropdown_toggle("OBS")),
         Key(["mod1"], "4", lazy.group["scratchpad"].dropdown_toggle("ranger")),
-        Key(["mod1"], "5", lazy.group["scratchpad"].dropdown_toggle("cal")),
+        Key(["mod1"], "5", lazy.group["scratchpad"].dropdown_toggle("rss")),
         Key(
             ["mod1", "shift"],
             "4",
@@ -362,7 +368,7 @@ keys.extend(
 
 layouts = [
     Stack(
-        border_normal=colors["bg"],
+        border_normal=colors["bg4"],
         border_focus=colors["gray"],
         border_width=3,
         num_stacks=1,
@@ -382,17 +388,17 @@ layouts = [
         border_width=3,
         border_normal_stack=colors["dark-blue"],
         border_focus_stack=colors["blue"],
-        border_on_single=4,
+        border_on_single=3,
         margin=5,
         margin_on_single=5,
         new_client_position="bottom",
     ),
     MonadThreeCol(
-        border_normal=colors["dark-green"],
-        border_focus=colors["green"],
+        border_normal=colors["dark-yellow"],
+        border_focus=colors["yellow"],
         margin=5,
         border_width=3,
-        single_border_width=4,
+        single_border_width=3,
         single_margin=5,
         new_client_position="bottom",
     ),
@@ -400,7 +406,7 @@ layouts = [
 
 floating_layout = Floating(
     border_normal=colors["dark-blue"],
-    border_focus=colors["gray"],
+    border_focus=colors["blue"],
     border_width=3,
     float_rules=[
         *Floating.default_float_rules,
@@ -455,10 +461,10 @@ def autostart():
     subprocess.run([home])
 
 
-# @hook.subscribe.client_new
-# def disable_floating(window):
-#    rules = [Match(wm_class="mpv")]
-#
-#    if any(window.match(rule) for rule in rules):
-#        window.togroup(qtile.current_group.name)
-#        window.cmd_disable_floating()
+@hook.subscribe.client_new
+def disable_floating(window):
+    rules = [Match(wm_class="mpv")]
+
+    if any(window.match(rule) for rule in rules):
+        window.togroup(qtile.current_group.name)
+        window.cmd_disable_floating()

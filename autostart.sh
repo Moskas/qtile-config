@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-xrandr --output DP-2 --mode 1920x1080 --rate 143.98 --dpi 100 &
+xrandr --output DP-0 --mode 1920x1080 --rate 143.98 --dpi 100 &
 #/home/moskas/.scripts/random-gruv-wall
 random-wallpaper &
 #feh --bg-fill --randomize /home/moskas/.config/wallpapers/gruvbox/** &
