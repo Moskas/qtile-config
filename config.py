@@ -27,6 +27,8 @@ from simpleBar import bar
 
 from colorschemes.gruvbox_dark import colors
 
+# from colorschemes.colors import colors
+
 # set mod key "windows/meta" key
 mod = "mod4"
 # set default terminal
@@ -36,6 +38,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # rofi shortcuts
     Key([mod], "d", lazy.spawn("rofi -show drun")),
+    Key([mod, "control"], "w", lazy.spawn("random-wallpaper")),
     Key(["mod1"], "Tab", lazy.spawn("rofi -show window")),
     Key(["mod1", "shift"], "l", lazy.spawn("betterlockscreen -l")),
     # screenshot shortcuts
@@ -303,10 +306,10 @@ groups.append(
             ),
             DropDown(
                 "bitwarden",
-                "bitwarden-desktop",
-                width=0.4,
+                "bitwarden",
+                width=0.6,
                 height=0.6,
-                x=0.3,
+                x=0.2,
                 y=0.1,
                 opacity=1,
             ),
@@ -352,6 +355,11 @@ groups.append(
 keys.extend(
     [
         Key(["mod1"], "1", lazy.group["scratchpad"].dropdown_toggle("term")),
+        Key(
+            ["mod1", "shift"],
+            "2",
+            lazy.group["scratchpad"].dropdown_toggle("bitwarden"),
+        ),
         Key(["mod1"], "2", lazy.group["scratchpad"].dropdown_toggle("music")),
         Key(["mod1"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
         Key(["mod1", "shift"], "3", lazy.group["scratchpad"].dropdown_toggle("OBS")),
@@ -368,7 +376,7 @@ keys.extend(
 
 layouts = [
     Stack(
-        border_normal=colors["bg4"],
+        border_normal=colors["bg2"],
         border_focus=colors["gray"],
         border_width=3,
         num_stacks=1,
