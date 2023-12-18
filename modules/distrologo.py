@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+
 def get_linux_distribution():
     try:
         with open("/etc/os-release", "r") as f:

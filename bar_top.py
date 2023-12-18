@@ -17,6 +17,9 @@ from libqtile.widget import (
 from colorschemes.gruvbox_dark import colors
 import subprocess
 
+# Custom modules
+from modules.distrologo import get_distro_logo
+
 
 def notify_current_song():
     # Run the "mpc current" command and capture its output
@@ -36,7 +39,7 @@ def notify_current_song():
 bar = Bar(
     [
         TextBox(
-            "",
+            get_distro_logo(),
             width=40,
             foreground=colors["inactive"],
             background=colors["blue"],
@@ -64,9 +67,7 @@ bar = Bar(
             background=colors["dark-blue"],
             foreground=colors["bg"],
             width=27,
-            mouse_callbacks={
-                'Button1': lambda: notify_current_song()
-            },
+            mouse_callbacks={"Button1": lambda: notify_current_song()},
         ),
         Mpd2(
             width=250,
@@ -165,8 +166,8 @@ bar = Bar(
             format="%A | %H:%M:%S",
             font="JetBrains Mono Nerd Font Bold",
             mouse_callbacks={
-                'Button1': lazy.spawn("kitty -T cal --hold -e cal "),
-                'Button3': lazy.spawn("notify-send Close Calendar"),
+                "Button1": lazy.spawn("kitty -T cal --hold -e cal "),
+                "Button3": lazy.spawn("notify-send Close Calendar"),
             },
         ),
     ],

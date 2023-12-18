@@ -18,26 +18,28 @@ from colorschemes.gruvbox_dark import colors
 import subprocess
 from modules.distrologo import get_distro_logo
 
-
-def notify_current_song():
-    mpc_output = subprocess.check_output(["mpc", "current"]).decode().strip()
-    artist, song_title = mpc_output.split(" - ")
-    message = f"{artist}\n{song_title}"
-    subprocess.Popen(["notify-send", "Now playing:", message])
+# from modules.battery import has_battery
 
 
-def notify_date():
-    date = subprocess.check_output(["date", "+%D"]).decode().strip()
-    subprocess.Popen(["notify-send", f"Today is: {date}"])
+# def notify_current_song():
+#     mpc_output = subprocess.check_output(["mpc", "current"]).decode().strip()
+#     artist, song_title = mpc_output.split(" - ")
+#     message = f"{artist}\n{song_title}"
+#     subprocess.Popen(["notify-send", "Now playing:", message])
 
 
-def exchange(currency):
-    value = (
-        subprocess.check_output(["rates", "1", currency, "to", "pln", "--short"])
-        .decode()
-        .strip()
-    )
-    return value
+# def notify_date():
+#     date = subprocess.check_output(["date", "+%D"]).decode().strip()
+#     subprocess.Popen(["notify-send", f"Today is: {date}"])
+
+
+# def exchange(currency):
+#    value = (
+#        subprocess.check_output(["rates", "1", currency, "to", "pln", "--short"])
+#        .decode()
+#        .strip()
+#    )
+#    return value
 
 
 separator = "//"
@@ -94,7 +96,7 @@ bar = Bar(
         #    "BTC %szł" % exchange("btc"),
         #    font="JetBrains Mono Nerd Font",
         # ),
-        # TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
+        TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
         Wttr(
             location={"Wrocław": "Home"},
             format="%C %f",
@@ -113,7 +115,7 @@ bar = Bar(
             font="JetBrains Mono Nerd Font",
             mouse_callbacks={
                 "Button1": lazy.group["scratchpad"].dropdown_toggle("cal"),
-                "Button3": lambda: notify_date(),
+                # "Button3": lambda: notify_date(),
             },
         ),
         TextBox(
