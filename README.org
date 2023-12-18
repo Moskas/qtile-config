@@ -13,3 +13,6 @@ This repo contains my personal config for qtile with small scripts and widgets.
   [[./screenshots/gruvbox-dark.png]]
 ** Solarized
 - Dark
+*** Example
+  [[./screenshots/solarized-dark.png]]
+

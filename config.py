@@ -376,8 +376,8 @@ keys.extend(
 
 layouts = [
     Stack(
-        border_normal=colors["bg2"],
-        border_focus=colors["gray"],
+        border_normal=colors["bg1"],
+        border_focus=colors["fg"],
         border_width=3,
         num_stacks=1,
         margin=5,
@@ -413,8 +413,8 @@ layouts = [
 ]
 
 floating_layout = Floating(
-    border_normal=colors["dark-blue"],
-    border_focus=colors["blue"],
+    border_normal=colors["bg1"],
+    border_focus=colors["fg"],
     border_width=3,
     float_rules=[
         *Floating.default_float_rules,
