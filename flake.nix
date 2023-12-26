@@ -9,11 +9,11 @@
     in {
       devShell.x86_64-linux = pkgs.mkShell {
         buildInputs = with pkgs; [
-          python310
-          python310Packages.requests
-          python310Packages.pyls-flake8
-          python310Packages.black
-          python310Packages.requests
+          python311
+          python311Packages.requests
+          python311Packages.pyls-flake8
+          python311Packages.black
+          python311Packages.requests
         ];
       };
     };

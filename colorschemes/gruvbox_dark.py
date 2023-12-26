@@ -1,6 +1,12 @@
 colors = {
     "bg": "#282828",
+    "bg0": "#1d2021",
+    "bg1": "#3c3836",
+    "bg2": "#504945",
     "fg": "#ebdbb2",
+    "fg0": "#fbf1c7",
+    "fg1": "#ebdbb2",
+    "fg2": "#d5c4a1",
     "dark-red": "#cc241d",
     "red": "#fb4934",
     "dark-green": "#98971a",
@@ -14,11 +20,6 @@ colors = {
     "dark-cyan": "#689d6a",
     "cyan": "#8ec07c",
     "gray": "#928374",
-    "bg0": "#32302f",  # bg0_s
-    "bg1": "#3c3836",
-    "bg2": "#504945",
-    "bg3": "#665c54",
-    "bg4": "#766f64",
-    "active": "#fbf1c7",  # aka fg0
-    "inactive": "#1d2021",  # aka bg0_h
+    "active": "#fbf1c7",
+    "inactive": "#504945",
 }

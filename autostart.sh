@@ -2,9 +2,9 @@
 
 xrandr --output DP-0 --mode 1920x1080 --rate 143.98 --dpi 100 &
 #/home/moskas/.scripts/random-gruv-wall
-random-wallpaper &
-#feh --bg-fill --randomize /home/moskas/.config/wallpapers/gruvbox/** &
-openrgb -p Red & 
+#random-wallpaper &
+feh --bg-fill --randomize /home/moskas/Pictures/Wallpapers/solarized/dark/*.{png,jpg} &
+#openrgb -p Red &
 #betterlockscreen -u ~/.config/wallpapers/gruvbox/**/* 
 setxkbmap pl &
 #dunst &
@@ -15,7 +15,8 @@ discord &
 nicotine &
 
 # mpd notification
-/home/moskas/.local/share/applications/mpd-notify-rs &
+mpd-notify-rs &
+#/home/moskas/.local/share/applications/mpd-notify-rs &
 #mpDris2 &
 
 # Rival 3 mouse sensitivity

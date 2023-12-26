@@ -1,3 +1,4 @@
+import os
 from libqtile.lazy import lazy
 from libqtile.bar import Bar
 from libqtile.widget import (
@@ -9,12 +10,19 @@ from libqtile.widget import (
     Mpd2,
     Pomodoro,
     Wttr,
-    # Image,
 )
 
 # from modules.xtheme import colors  # dynamic colors from xres
 
-from colorschemes.gruvbox_dark import colors
+if os.uname().nodename == "roon":
+    from colorschemes.solarized_dark import colors
+else:
+    from colorschemes.gruvbox_dark import colors
+
+# Import logo icon
+from modules.distrologo import get_distro_logo
+
+
 import subprocess
 
 
@@ -32,15 +40,15 @@ def notify_current_song():
     subprocess.Popen(["notify-send", "Now playing:", message])
 
 
-# Scuffed bar
+font = "JetBrainsMono Nerd Font"
 bar = Bar(
     [
         TextBox(
-            "",
+            get_distro_logo(),
             width=40,
-            foreground=colors["inactive"],
+            foreground=colors["bg"],
             background=colors["blue"],
-            font="JetBrains Mono Nerd Font",
+            font=font,
             fontsize=20,
         ),
         GroupBox(
@@ -54,19 +62,17 @@ bar = Bar(
             borderwidth=0,
             highlight_color=colors["bg"],
             background=colors["bg"],
-            font="JetBrains Mono Nerd Font",
+            font=font,
             padding=10,
         ),
         Spacer(),
         TextBox(
             "",
-            font="JetBrains Mono Nerd Font",
+            font=font,
             background=colors["dark-blue"],
             foreground=colors["bg"],
             width=27,
-            mouse_callbacks={
-                'Button1': lambda: notify_current_song()
-            },
+            mouse_callbacks={"Button1": lambda: notify_current_song()},
         ),
         Mpd2(
             width=250,
@@ -112,7 +118,7 @@ bar = Bar(
             color_break=colors["yellow"],
             color_inactive=colors["fg"],
             # Font
-            font="JetBrains Mono Nerd Font",
+            font=font,
             fontsize=16,
             padding=10,
         ),
@@ -165,15 +171,15 @@ bar = Bar(
             format="%A | %H:%M:%S",
             font="JetBrains Mono Nerd Font Bold",
             mouse_callbacks={
-                'Button1': lazy.spawn("kitty -T cal --hold -e cal "),
-                'Button3': lazy.spawn("notify-send Close Calendar"),
+                "Button1": lazy.spawn("kitty -T cal --hold -e cal "),
+                "Button3": lazy.spawn("notify-send Close Calendar"),
             },
         ),
     ],
     margin=[5, 5, 5, 5],
     background=colors["bg"],
     foreground=colors["fg"],
-    font="JetBrains Mono Nerd Font",
+    font=font,
     opacity=1,
     size=25,
 )

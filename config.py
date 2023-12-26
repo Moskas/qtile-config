@@ -20,154 +20,26 @@ from libqtile.config import (
     ScratchPad,
     Screen,
 )
+
 from libqtile.lazy import lazy
 
-# from bar_top import bar
-from simpleBar import bar
+# Import keybinds
+from binds.binds import binds
 
-from colorschemes.gruvbox_dark import colors
+# Import qtile bar
+from bars.simpleBar import bar
+
+if os.uname().nodename == "roon":
+    from colorschemes.solarized_dark import colors
+else:
+    from colorschemes.gruvbox_dark import colors
 
 # set mod key "windows/meta" key
 mod = "mod4"
 # set default terminal
 terminal = "kitty"
 
-keys = [
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # rofi shortcuts
-    Key([mod], "d", lazy.spawn("rofi -show drun")),
-    Key(["mod1"], "Tab", lazy.spawn("rofi -show window")),
-    Key(["mod1", "shift"], "l", lazy.spawn("betterlockscreen -l")),
-    # screenshot shortcuts
-    Key(["control"], "Print", lazy.spawn("flameshot gui -c")),
-    Key([], "Print", lazy.spawn("flameshot screen -c")),
-    # Key(["control"], "c", lazy.spawn("xclip -selelction clipboard")),
-    # media keys
-    Key(
-        [],
-        "XF86AudioRaiseVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2000"),
-    ),
-    Key(
-        [],
-        "XF86AudioLowerVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2000"),
-    ),
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
-    # brightness keys
-    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 10")),
-    # mpd shortcuts
-    Key(["mod1"], "n", lazy.spawn("mpc next"), desc="play next track"),
-    Key(["mod1"], "b", lazy.spawn("mpc previous"), desc="play previous track"),
-    Key(["mod1"], "m", lazy.spawn("mpc toggle"), desc="Toggle between play and pause"),
-    # Key(["mod1"], "j", lazy.spawn('notify-send "Now playing" subprocess.run(mpc current)')),
-    # Toggle floating and fullscreen
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen mode"),
-    Key(
-        [mod, "shift"],
-        "space",
-        lazy.window.toggle_floating(),
-        desc="Toggle fullscreen mode",
-    ),
-    # Keybindings for resizing windows in MonadTall layout
-    Key([mod], "i", lazy.layout.grow()),
-    Key([mod], "m", lazy.layout.shrink()),
-    Key([mod], "n", lazy.layout.normalize()),
-    Key([mod], "o", lazy.layout.maximize()),
-    Key([mod, "control"], "space", lazy.layout.flip()),
-    # arrows
-    Key([mod], "Left", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "Right", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "Down", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "Up", lazy.layout.up(), desc="Move focus up"),
-    # vim
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "Space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key(
-        [mod, "shift"],
-        "Left",
-        lazy.layout.shuffle_left(),
-        desc="Move window to the left",
-    ),
-    Key(
-        [mod, "shift"],
-        "Right",
-        lazy.layout.shuffle_right(),
-        desc="Move window to the right",
-    ),
-    Key(
-        [mod, "shift"],
-        "h",
-        lazy.layout.shuffle_left(),
-        desc="Move window to the left",
-    ),
-    Key(
-        [mod, "shift"],
-        "l",
-        lazy.layout.shuffle_right(),
-        desc="Move window to the right",
-    ),
-    Key([mod, "shift"], "Down", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
-    Key(
-        [mod, "shift"],
-        "h",
-        lazy.layout.shuffle_left(),
-        desc="Move window to the left",
-    ),
-    Key(
-        [mod, "shift"],
-        "l",
-        lazy.layout.shuffle_right(),
-        desc="Move window to the right",
-    ),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
-    Key(
-        [mod, "control"],
-        "Left",
-        lazy.layout.grow_left(),
-        desc="Grow window to the left",
-    ),
-    Key(
-        [mod, "control"],
-        "Right",
-        lazy.layout.grow_right(),
-        desc="Grow window to the right",
-    ),
-    Key([mod, "control"], "Down", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "Up", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key(
-        [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
-    ),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-]
+keys = binds
 
 groups = [
     Group(
@@ -348,53 +220,36 @@ groups.append(
         ],
     )
 )
-# extend keys list with keybinding for scratchpad
-keys.extend(
-    [
-        Key(["mod1"], "1", lazy.group["scratchpad"].dropdown_toggle("term")),
-        Key(["mod1"], "2", lazy.group["scratchpad"].dropdown_toggle("music")),
-        Key(["mod1"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
-        Key(["mod1", "shift"], "3", lazy.group["scratchpad"].dropdown_toggle("OBS")),
-        Key(["mod1"], "4", lazy.group["scratchpad"].dropdown_toggle("ranger")),
-        Key(["mod1"], "5", lazy.group["scratchpad"].dropdown_toggle("rss")),
-        Key(
-            ["mod1", "shift"],
-            "4",
-            lazy.group["scratchpad"].dropdown_toggle("agenda"),
-        ),
-        Key(["mod1"], "9", lazy.group["scratchpad"].dropdown_toggle("bitwarden")),
-    ]
-)
 
 layouts = [
     Stack(
-        border_normal=colors["bg4"],
-        border_focus=colors["gray"],
+        border_normal=colors["fg2"],
+        border_focus=colors["cyan"],
         border_width=3,
         num_stacks=1,
         margin=5,
     ),
     # MonadTall(
-    #    border_normal=colors["gray"],
-    #    border_focus=colors["blue"],
+    #    border_normal=colors["fg2"],
+    #    border_focus=colors["red"],
     #    margin=5,
     #    border_width=4,
     #    single_border_width=4,
     #    single_margin=5,
     # ),
     Columns(
-        border_normal=colors["dark-cyan"],
-        border_focus=colors["cyan"],
+        border_normal=colors["fg2"],
+        border_focus=colors["blue"],
         border_width=3,
-        border_normal_stack=colors["dark-blue"],
-        border_focus_stack=colors["blue"],
+        border_normal_stack=colors["fg2"],
+        border_focus_stack=colors["magenta"],
         border_on_single=3,
         margin=5,
         margin_on_single=5,
         new_client_position="bottom",
     ),
     MonadThreeCol(
-        border_normal=colors["dark-yellow"],
+        border_normal=colors["fg2"],
         border_focus=colors["yellow"],
         margin=5,
         border_width=3,
@@ -405,7 +260,7 @@ layouts = [
 ]
 
 floating_layout = Floating(
-    border_normal=colors["dark-blue"],
+    border_normal=colors["fg2"],
     border_focus=colors["blue"],
     border_width=3,
     float_rules=[
@@ -417,6 +272,7 @@ floating_layout = Floating(
         Match(wm_class="bitwarden"),
         Match(wm_class="nemo"),
         Match(wm_class="thunar"),
+        Match(title="notificationtoasts_8_desktop"),
         Match(wm_class="ranger,ranger"),
     ],
 )

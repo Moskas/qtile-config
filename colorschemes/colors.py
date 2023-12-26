@@ -1,0 +1,1 @@
+/nix/store/113nf4ffyryj22xf71pymmpmqn9j1k7b-home-manager-files/.config/qtile/colorschemes/colors.py
