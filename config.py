@@ -5,9 +5,11 @@ from libqtile import hook
 
 # import layout objects
 from libqtile.layout.columns import Columns
-from libqtile.layout.xmonad import MonadThreeCol
+
+# from libqtile.layout.xmonad import MonadThreeCol
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
+from libqtile.layout.tile import Tile
 
 # import widgets and bars
 from libqtile.config import (
@@ -27,7 +29,10 @@ from simpleBar import bar
 
 from colorschemes.gruvbox_dark import colors
 
-# from colorschemes.colors import colors
+# from colorschemes.nostalgia_dark import colors
+
+# from modules.xtheme import colors
+
 
 # set mod key "windows/meta" key
 mod = "mod4"
@@ -38,12 +43,14 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # rofi shortcuts
     Key([mod], "d", lazy.spawn("rofi -show drun")),
+    Key([mod], "r", lazy.spawncmd()),
+    Key([mod], "e", lazy.spawn('emacsclient --eval "(emacs-everywhere)"')),
     Key([mod, "control"], "w", lazy.spawn("random-wallpaper")),
     Key(["mod1"], "Tab", lazy.spawn("rofi -show window")),
     Key(["mod1", "shift"], "l", lazy.spawn("betterlockscreen -l")),
     # screenshot shortcuts
-    Key(["control"], "Print", lazy.spawn("flameshot gui -c")),
-    Key([], "Print", lazy.spawn("flameshot screen -c")),
+    Key(["control"], "Print", lazy.spawn("cropshot")),
+    Key([], "Print", lazy.spawn("fullshot")),
     # Key(["control"], "c", lazy.spawn("xclip -selelction clipboard")),
     # media keys
     Key(
@@ -167,9 +174,15 @@ keys = [
     ),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    # Shift to the group above
+    Key([mod, "shift"], "j", lazy.screen.prev_group(), desc="Move to the group above"),
+    # Shift to the group below
+    Key([mod, "shift"], "k", lazy.screen.next_group(), desc="Move to the group below"),
+    Key([mod, "shift"], "b", lazy.hide_show_bar("top")),
 ]
 
 groups = [
@@ -187,17 +200,17 @@ groups = [
     Group(
         "2",
         label="󰙯",
-        matches=[Match(wm_class="discord"), Match(wm_class="signal")],
+        matches=[Match(wm_class="discord"), Match(wm_class="vesktop")],
         layout="stack",
     ),
     Group(
         "3",
         label="",
         matches=[Match(wm_class="emacs")],
-        layout="columns",
+        layout="tile",
     ),
-    Group("4", label="󰠮", matches=[Match(wm_class="Zathura")], layout="monadthreecol"),
-    Group("5", label="", matches=[Match(wm_class="steam")], layout="columns"),
+    Group("4", label="󰠮", matches=[Match(wm_class="Zathura")], layout="tile"),
+    Group("5", label="", matches=[Match(wm_class="steam")], layout="stack"),
     Group(
         "6",
         label="󰄀",
@@ -287,13 +300,13 @@ groups.append(
                 opacity=0.9,
             ),
             DropDown(
-                "webplayer",
+                "quickbrowser",
                 "qutebrowser",
-                width=0.8,
-                height=0.8,
-                x=0.1,
+                width=0.5,
+                height=0.985,
                 y=0.005,
-                opacity=1.0,
+                x=0.26,
+                opacity=0.99,
             ),
             DropDown(
                 "music",
@@ -320,7 +333,7 @@ groups.append(
                 height=0.7,
                 x=0.2,
                 y=0.1,
-                opacity=0.9,
+                opacity=1.0,
             ),
             DropDown(
                 "OBS",
@@ -333,7 +346,7 @@ groups.append(
             ),
             DropDown(
                 "cal",
-                "kitty -T cal --hold -e cal",
+                "kitty -T cal --hold -e cal -m",
                 width=0.2,
                 height=0.25,
                 x=0.795,
@@ -347,6 +360,19 @@ groups.append(
                 height=0.985,
                 y=0.005,
                 x=0.26,
+                # on_focus_lost_hide=False,
+                opacity=1.0,
+            ),
+            DropDown(
+                "emacs",
+                "kitty -e emacsclient -nw -c -r",
+                # I'm using no gui due to spawning additional window
+                # I need to create a proper hook for that TODO
+                width=0.5,
+                height=0.985,
+                y=0.005,
+                x=0.26,
+                opacity=0.99,
             ),
         ],
     )
@@ -364,7 +390,9 @@ keys.extend(
         Key(["mod1"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
         Key(["mod1", "shift"], "3", lazy.group["scratchpad"].dropdown_toggle("OBS")),
         Key(["mod1"], "4", lazy.group["scratchpad"].dropdown_toggle("ranger")),
-        Key(["mod1"], "5", lazy.group["scratchpad"].dropdown_toggle("rss")),
+        Key(["mod1"], "r", lazy.group["scratchpad"].dropdown_toggle("rss")),
+        Key(["mod1"], "e", lazy.group["scratchpad"].dropdown_toggle("emacs")),
+        Key(["mod1"], "w", lazy.group["scratchpad"].dropdown_toggle("quickbrowser")),
         Key(
             ["mod1", "shift"],
             "4",
@@ -377,19 +405,11 @@ keys.extend(
 layouts = [
     Stack(
         border_normal=colors["bg1"],
-        border_focus=colors["fg"],
+        border_focus=colors["bg2"],
         border_width=3,
         num_stacks=1,
         margin=5,
     ),
-    # MonadTall(
-    #    border_normal=colors["gray"],
-    #    border_focus=colors["blue"],
-    #    margin=5,
-    #    border_width=4,
-    #    single_border_width=4,
-    #    single_margin=5,
-    # ),
     Columns(
         border_normal=colors["dark-cyan"],
         border_focus=colors["cyan"],
@@ -401,30 +421,25 @@ layouts = [
         margin_on_single=5,
         new_client_position="bottom",
     ),
-    MonadThreeCol(
-        border_normal=colors["dark-yellow"],
-        border_focus=colors["yellow"],
-        margin=5,
+    Tile(
+        master_match=(Match(wm_class="emacs"), Match(wm_class="zathura")),
+        border_normal=colors["dark-red"],
+        border_focus=colors["red"],
         border_width=3,
-        single_border_width=3,
-        single_margin=5,
-        new_client_position="bottom",
+        margin=5,
     ),
 ]
 
 floating_layout = Floating(
     border_normal=colors["bg1"],
-    border_focus=colors["fg"],
+    border_focus=colors["bg2"],
     border_width=3,
     float_rules=[
         *Floating.default_float_rules,
         Match(title="OpenRGB"),
-        Match(title="Pixel 6"),
-        Match(wm_class="pavucontrol"),
-        Match(wm_class="stacer"),
         Match(wm_class="bitwarden"),
-        Match(wm_class="nemo"),
-        Match(wm_class="thunar"),
+        # Match(wm_class="nemo"),
+        # Match(wm_class="thunar"),
         Match(wm_class="ranger,ranger"),
     ],
 )
@@ -467,12 +482,3 @@ wmname = "kittywm"
 def autostart():
     home = os.path.expanduser("~/.config/qtile/autostart.sh")
     subprocess.run([home])
-
-
-@hook.subscribe.client_new
-def disable_floating(window):
-    rules = [Match(wm_class="mpv")]
-
-    if any(window.match(rule) for rule in rules):
-        window.togroup(qtile.current_group.name)
-        window.cmd_disable_floating()

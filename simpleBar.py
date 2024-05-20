@@ -10,9 +10,12 @@ from libqtile.widget import (
     Wttr,
     ImapWidget,
     Pomodoro,
+    GenPollText,
 )
 
 from colorschemes.gruvbox_dark import colors
+
+# from colorschemes.nostalgia_dark import colors
 
 
 import subprocess
@@ -40,9 +43,15 @@ from modules.distrologo import get_distro_logo
 #        .strip()
 #    )
 #    return value
+separator = "|"
+font = "JetBrains Mono Nerd Font"
 
-
-separator = "//"
+widget_defaults = dict(
+    font=font,
+    fontsize=16,
+    background=colors["bg"],
+    foreground=colors["fg"],
+)
 
 bar = Bar(
     [
@@ -50,14 +59,14 @@ bar = Bar(
             get_distro_logo(),
             width=30,
             foreground=colors["fg"],
-            font="JetBrains Mono Nerd Font",
+            font="Iosevka Nerd Font",
             fontsize=18,
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi -show drun"),
                 "Button3": lazy.spawn("kitty"),
             },
         ),
-        TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
+        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
         GroupBox(
             fontsize=16,
             disable_drag=True,
@@ -69,14 +78,14 @@ bar = Bar(
             borderwidth=0,
             highlight_color=colors["bg"],
             background=colors["bg"],
-            font="JetBrains Mono Nerd Font",
+            font=font,
             padding=10,
         ),
         # ExchangePriceWidget(),
         Spacer(),
         Mpd2(
             width=500,
-            font="JetBrains Mono Nerd Font",
+            font=font,
             foreground=colors["fg"],
             status_format="{artist} - {title} [{album}]",
             scroll=True,
@@ -87,32 +96,57 @@ bar = Bar(
             },
         ),
         Spacer(),
-        # TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
+        # TextBox(separator, font=font, fontsize=16),
         # TextBox(
         #    "XMR %szł" % exchange("xmr"),
-        #    font="JetBrains Mono Nerd Font",
+        #    font=font,
         # ),
         # TextBox(
         #    "BTC %szł" % exchange("btc"),
-        #    font="JetBrains Mono Nerd Font",
+        #    font=font,
         # ),
-        TextBox(separator, font="JetBrainsMono Nerd Font", fontsize=16),
+        #        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
+        #        GenPollText(
+        #            foreground=colors["fg"],
+        #            name="BTC",
+        #            fmt="{} BTC",
+        #            update_interval=60,
+        #            func=lambda: subprocess.check_output(
+        #                ["rates", "1", "btc", "to", "pln", "--short"]
+        #            )
+        #            .strip()
+        #            .decode(),
+        #        ),
+        #        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
+        #        GenPollText(
+        #            foreground=colors["fg"],
+        #            name="XMR",
+        #            fmt="{} XMR",
+        #            update_interval=60,
+        #            func=lambda: subprocess.check_output(
+        #                ["rates", "1", "xmr", "to", "pln", "--short"]
+        #            )
+        #            .strip()
+        #            .decode(),
+        #        ),
+        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
         Wttr(
             location={"Wrocław": "Home"},
             format="%C %f",
             update_interval=30,
             foreground=colors["fg"],
-            font="JetBrains Mono Nerd Font",
+            font=font,
         ),
         TextBox(
             separator,
-            font="JetBrainsMono Nerd Font",
+            font=font,
             fontsize=16,
+            foreground=colors["fg"],
         ),
         Clock(
             foreground=colors["fg"],
             format="%H:%M:%S",
-            font="JetBrains Mono Nerd Font",
+            font=font,
             mouse_callbacks={
                 "Button1": lazy.group["scratchpad"].dropdown_toggle("cal"),
                 # "Button3": lambda: notify_date(),
@@ -120,8 +154,9 @@ bar = Bar(
         ),
         TextBox(
             separator,
-            font="JetBrainsMono Nerd Font",
+            font=font,
             fontsize=16,
+            foreground=colors["fg"],
         ),
         Systray(
             # System tray for apps like discord, obs and such
@@ -131,15 +166,16 @@ bar = Bar(
         ),
         TextBox(
             " ",
-            font="JetBrainsMono Nerd Font",
+            font=font,
             fontsize=16,
             width=10,
+            foreground=colors["fg"],
         ),
     ],
     # margin=[5, 5, 5, 5],
     background=colors["bg"],
     foreground=colors["fg"],
-    font="JetBrains Mono Nerd Font",
+    font=font,
     opacity=1,
     size=25,
 )
