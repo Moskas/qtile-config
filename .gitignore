@@ -4,6 +4,8 @@
 tmp/
 .direnv/
 
+colorschemes/colors.py
+
 *.py[cod]
 *.egg
 build

@@ -11,15 +11,11 @@ from libqtile.widget import (
     ImapWidget,
     Pomodoro,
     GenPollText,
-    Image,
-    Sep,
-    DoNotDisturb,
 )
 
 # from colorschemes.gruvbox_dark import colors
-from colorschemes.colors import colors
 
-# from colorschemes.nostalgia_dark import colors
+from colorschemes.nostalgia_dark import colors
 
 
 import subprocess
@@ -35,9 +31,9 @@ from modules.distrologo import get_distro_logo
 #     subprocess.Popen(["notify-send", "Now playing:", message])
 
 
-def notify_date():
-    date = subprocess.check_output(["date", "+%D"]).decode().strip()
-    subprocess.Popen(["notify-send", f"Today is: {date}"])
+# def notify_date():
+#     date = subprocess.check_output(["date", "+%D"]).decode().strip()
+#     subprocess.Popen(["notify-send", f"Today is: {date}"])
 
 
 # def exchange(currency):
@@ -59,14 +55,9 @@ widget_defaults = dict(
 
 bar = Bar(
     [
-        # Image(
-        #    filename="~/Pictures/nix (copy 1).png",
-        #    width=30,
-        #    margin=3,
-        #    ),
         TextBox(
             get_distro_logo(),
-            width=34,
+            width=30,
             foreground=colors["fg"],
             font="Iosevka Nerd Font",
             fontsize=18,
@@ -75,14 +66,13 @@ bar = Bar(
                 "Button3": lazy.spawn("kitty"),
             },
         ),
-        # TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
-        Sep(foreground=colors["fg"], padding=10, linewidth=2, size_percent=70),
+        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
         GroupBox(
             fontsize=16,
             disable_drag=True,
             hide_unused=False,
-            active=colors["fg2"],
-            inactive=colors["gray"],
+            active=colors["gray"],
+            inactive=colors["bg2"],
             highlight_method="line",
             block_highlight_text_color=colors["fg"],
             borderwidth=0,
@@ -139,7 +129,7 @@ bar = Bar(
         #            .strip()
         #            .decode(),
         #        ),
-        Sep(foreground=colors["fg"], padding=10, linewidth=2, size_percent=70),
+        TextBox(separator, font=font, fontsize=16, foreground=colors["fg"]),
         Wttr(
             location={"Wrocław": "Home"},
             format="%C %f",
@@ -147,17 +137,27 @@ bar = Bar(
             foreground=colors["fg"],
             font=font,
         ),
-        Sep(foreground=colors["fg"], padding=10, linewidth=2, size_percent=70),
+        TextBox(
+            separator,
+            font=font,
+            fontsize=16,
+            foreground=colors["fg"],
+        ),
         Clock(
             foreground=colors["fg"],
             format="%H:%M:%S",
             font=font,
             mouse_callbacks={
                 "Button1": lazy.group["scratchpad"].dropdown_toggle("cal"),
-                "Button3": lambda: notify_date(),
+                # "Button3": lambda: notify_date(),
             },
         ),
-        Sep(foreground=colors["fg"], padding=10, linewidth=2, size_percent=70),
+        TextBox(
+            separator,
+            font=font,
+            fontsize=16,
+            foreground=colors["fg"],
+        ),
         Systray(
             # System tray for apps like discord, obs and such
             background=colors["bg"],
@@ -170,12 +170,6 @@ bar = Bar(
             fontsize=16,
             width=10,
             foreground=colors["fg"],
-        ),
-        Sep(foreground=colors["fg"], padding=10, linewidth=2, size_percent=70),
-        DoNotDisturb(
-            enabled_icon="󱏧 ",
-            disabled_icon="󰂚 ",
-            fontsize=16,
         ),
     ],
     # margin=[5, 5, 5, 5],

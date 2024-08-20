@@ -1,0 +1,15 @@
+#+title: Bars
+#+author: Moskas
+#+options: \n:t
+
+The following directory contains all the bars that I have configured. I'm mainly using the ~simpleBar~ right now.
+
+* Current configurations
+** simpleBar
+Minimal bar with monochrome colors.
+** fancyBar
+Bar with padding and colors and icons, structuraly familiar to simpleBar.
+** modelineBar
+Not yet configured Emacs modeline clone.
+** vimBar
+Just like modelineBar but stylized as a vim statusline.

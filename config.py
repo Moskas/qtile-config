@@ -25,9 +25,14 @@ from libqtile.config import (
 from libqtile.lazy import lazy
 
 # from bar_top import bar
-from simpleBar import bar
+from simpleBar import bar as topbar
+
+# from ui.bars.i3bar import bar
+from ui.bars.thinBar import bar
 
 from colorschemes.gruvbox_dark import colors
+
+# from colorschemes.colors import colors
 
 # from colorschemes.nostalgia_dark import colors
 
@@ -188,7 +193,7 @@ keys = [
 groups = [
     Group(
         "1",
-        label="󰖟",
+        label="●",
         matches=[
             Match(wm_class="firefox"),
             Match(wm_class="brave-browser"),
@@ -199,34 +204,36 @@ groups = [
     ),
     Group(
         "2",
-        label="󰙯",
+        label="●",
         matches=[Match(wm_class="discord"), Match(wm_class="vesktop")],
         layout="stack",
     ),
     Group(
         "3",
-        label="",
+        label="●",
         matches=[Match(wm_class="emacs")],
         layout="tile",
     ),
-    Group("4", label="󰠮", matches=[Match(wm_class="Zathura")], layout="tile"),
-    Group("5", label="", matches=[Match(wm_class="steam")], layout="stack"),
+    Group(
+        "4",
+        label="●",
+        matches=[Match(wm_class="Zathura")],
+        layout="tile",
+    ),
+    Group(
+        "5",
+        label="●",
+        matches=[Match(wm_class="steam")],
+        layout="stack",
+    ),
     Group(
         "6",
-        label="󰄀",
+        label="●",
         matches=[Match(wm_class="obs")],
         layout="columns",
     ),
-    # Group("7", label="", layout="zoomy"),
-    # Group("8", label="󰇮", matches=[Match(wm_class="Geary")], layout="columns"),
-    # Group("9", label="", layout="columns"),
-    # Group(
-    #    "0",
-    #    label="󰎆",
-    #    matches=[Match(wm_class="Spotify"), Match(wm_class="mpdevil")],
-    #    layout="stack",
-    # ),
 ]
+
 
 for i in groups:
     keys.extend(
@@ -377,6 +384,7 @@ groups.append(
         ],
     )
 )
+
 # extend keys list with keybinding for scratchpad
 keys.extend(
     [
@@ -406,18 +414,18 @@ layouts = [
     Stack(
         border_normal=colors["bg1"],
         border_focus=colors["bg2"],
-        border_width=3,
+        border_width=2,
         num_stacks=1,
-        margin=5,
+        margin=2,
     ),
     Columns(
         border_normal=colors["dark-cyan"],
         border_focus=colors["cyan"],
-        border_width=3,
+        border_width=2,
         border_normal_stack=colors["dark-blue"],
         border_focus_stack=colors["blue"],
         border_on_single=3,
-        margin=5,
+        margin=2,
         margin_on_single=5,
         new_client_position="bottom",
     ),
@@ -425,15 +433,15 @@ layouts = [
         master_match=(Match(wm_class="emacs"), Match(wm_class="zathura")),
         border_normal=colors["dark-red"],
         border_focus=colors["red"],
-        border_width=3,
-        margin=5,
+        border_width=2,
+        margin=2,
     ),
 ]
 
 floating_layout = Floating(
     border_normal=colors["bg1"],
     border_focus=colors["bg2"],
-    border_width=3,
+    border_width=2,
     float_rules=[
         *Floating.default_float_rules,
         Match(title="OpenRGB"),
