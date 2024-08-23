@@ -416,7 +416,7 @@ layouts = [
         border_focus=colors["bg2"],
         border_width=2,
         num_stacks=1,
-        margin=2,
+        margin=5,
     ),
     Columns(
         border_normal=colors["dark-cyan"],
@@ -424,7 +424,7 @@ layouts = [
         border_width=2,
         border_normal_stack=colors["dark-blue"],
         border_focus_stack=colors["blue"],
-        border_on_single=3,
+        border_on_single=5,
         margin=2,
         margin_on_single=5,
         new_client_position="bottom",
@@ -434,7 +434,8 @@ layouts = [
         border_normal=colors["dark-red"],
         border_focus=colors["red"],
         border_width=2,
-        margin=2,
+        margin=[0, 5, 0, 5],
+        margin_on_single=True,
     ),
 ]
 
