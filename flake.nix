@@ -13,9 +13,9 @@
     {
       devShell.x86_64-linux = pkgs.mkShell {
         buildInputs = with pkgs; [
-          python311
-          python311Packages.pyls-flake8
-          python311Packages.black
+          python313
+          python313Packages.pyls-flake8
+          python313Packages.black
           hy
         ];
       };

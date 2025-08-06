@@ -25,7 +25,7 @@ from libqtile.config import (
 from libqtile.lazy import lazy
 
 # from bar_top import bar
-from simpleBar import bar as topbar
+#from simpleBar import bar as topbar
 
 # from ui.bars.i3bar import bar
 from ui.bars.thinBar import bar
@@ -61,17 +61,22 @@ keys = [
     Key(
         [],
         "XF86AudioRaiseVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2000"),
+        #lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2000"),
+        lazy.spawn("pulsemixer --change-volume +10"),
     ),
     Key(
         [],
         "XF86AudioLowerVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2000"),
+        lazy.spawn("pulsemixer --change-volume -10"),
+        #lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2000"),
     ),
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+    # Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+    Key([], "XF86AudioMute", lazy.spawn("pulsemixer --toggle-mute")),
+    Key([], "XF86AudioMicMute", lazy.spawn("sh -c 'pulsemixer --list-sources | cut -f3 | grep Default | awk \"{print \\$2}\" | cut -c 8- | cut -c -2  | xargs -I{} pulsemixer --toggle-mute --id {}'")),
     # brightness keys
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 10")),
+    # Key([], "XF86TouchpadToggle", lazy.spawn("xinput disable 11 && xinput disable 10")),
     # mpd shortcuts
     Key(["mod1"], "n", lazy.spawn("mpc next"), desc="play next track"),
     Key(["mod1"], "b", lazy.spawn("mpc previous"), desc="play previous track"),
